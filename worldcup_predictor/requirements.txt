@@ -1,0 +1,13 @@
+pandas
+numpy
+scikit-learn
+jupyter
+notebook
+matplotlib
+seaborn
+joblib
+streamlit
+fastapi
+uvicorn
+requests
+psycopg2-binary 
