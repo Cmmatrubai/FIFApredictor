@@ -18,13 +18,18 @@ os.makedirs(MODELS_DIR, exist_ok=True)
 def train_match_model():
     print("Training match outcome prediction model...")
 
-    # Load team features
-    team_path = os.path.join(PROCESSED_DIR, 'team_features.csv')
-    df = pd.read_csv(team_path)
+    # Load matchup dataset
+    matchup_path = os.path.join(PROCESSED_DIR, 'matchup_dataset.csv')
+    df = pd.read_csv(matchup_path)
 
-    # Simulate match outcomes using team features
-    X = df[['avg_goals_for', 'avg_goals_against', 'win_rate', 'recent_form']]
-    y = (df['win_rate'] > 0.5).astype(int)  # win_rate > 50% → "likely win"
+    feature_cols = [
+        'diff_avg_goals_for',
+        'diff_avg_goals_against',
+        'diff_win_rate',
+        'diff_recent_form'
+    ]
+    X = df[feature_cols]
+    y = df['label']
 
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
@@ -44,18 +49,28 @@ def train_award_model(target_column, model_filename, filter_goalkeepers=False):
 
     # filter for goalkeeper-specific models
     if filter_goalkeepers:
-        df = df[df['position'].str.lower() == 'goalkeeper']
+        df = df[df['position'].str.lower() == 'goalkeeper'] if 'position' in df.columns else df
 
     # Drop rows missing target
     df = df.dropna(subset=[target_column])
 
     # Features
-    feature_cols = ['assists_per_90', 'cards_per_90']
-    if 'injury_status' in df.columns:
-        # Encode injury_status (Healthy/Injured/etc.)
-        le = LabelEncoder()
-        df['injury_status_encoded'] = le.fit_transform(df['injury_status'])
-        feature_cols.append('injury_status_encoded')
+    if target_column == 'goals_scored':
+        feature_cols = ['assists_provided', 'dribbles_per_90', 'interceptions_per_90', 'tackles_per_90', 'total_duels_won_per_90']
+    elif target_column == 'assists_provided':
+        feature_cols = ['goals_scored', 'dribbles_per_90', 'interceptions_per_90', 'tackles_per_90', 'total_duels_won_per_90']
+    elif target_column == 'save_percentage':
+        feature_cols = ['clean_sheets', 'interceptions_per_90', 'tackles_per_90', 'total_duels_won_per_90']
+    else:
+        feature_cols = [col for col in df.columns if col not in ['player_name', 'nationality', target_column]]
+
+    # Drop rows with NaN in any feature column
+    df = df.dropna(subset=feature_cols)
+
+    # Check if we have enough samples after filtering
+    if len(df) < 5:  # Need at least 5 samples for meaningful training
+        print(f"⚠️  Insufficient data for {target_column} model. Only {len(df)} samples available after filtering. Skipping this model.")
+        return
 
     X = df[feature_cols]
     y = df[target_column]
@@ -66,7 +81,7 @@ def train_award_model(target_column, model_filename, filter_goalkeepers=False):
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
-    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     print(f"{target_column} RMSE: {rmse:.3f}")
 
     model_path = os.path.join(MODELS_DIR, model_filename)
@@ -76,11 +91,12 @@ def train_award_model(target_column, model_filename, filter_goalkeepers=False):
 def main():
     train_match_model()
 
-    # Train multiple award models
-    train_award_model('goals_per_90', 'award_model_goals.pkl')
-    train_award_model('assists_per_90', 'award_model_assists.pkl')
-    train_award_model('cards_per_90', 'award_model_cards.pkl')
-    train_award_model('save_percentage', 'award_model_saves.pkl', filter_goalkeepers=True)
+    # Train available award models based on columns in player_features.csv
+    train_award_model('goals_scored', 'award_model_goals.pkl')
+    train_award_model('assists_provided', 'award_model_assists.pkl')
+    # Skipping cards_per_90 as it does not exist in the CSV
+    if 'save_percentage' in pd.read_csv(os.path.join(PROCESSED_DIR, 'player_features.csv')).columns:
+        train_award_model('save_percentage', 'award_model_saves.pkl', filter_goalkeepers=True)
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ Argentina,2,Adidas,MF,14.0,"Oct 5, 1998",Bayer Leverkusen,Exequiel Palacios,3,0,
 Argentina,2,Adidas,MF,20.0,"Dec 24, 1998",Brighton,Alexis Mac Allister,6,1,1,0.97,0.49,1.46,5.85,-,-,Adidas
 Argentina,2,Adidas,MF,24.0,"Jan 17, 2001",Benfica,Enzo Fernandez,7,1,1,0.80,0.48,3.52,7.83,,-,Nike
 Argentina,2,Adidas,MF,17.0,"Apr 26, 2001",Atlanta United,Alejandro Gomez,2,0,0,0.83,0.83,1.65,8.26,-,-,Adidas
-Argentina,2,Adidas,FW,10.0,"Jun 24, 1987",PSG,Lionel Messi 🐐,7,7,3,3.78,0.00,0.65,6.39,-,-,Adidas
+Argentina,2,Adidas,FW,10.0,"Jun 24, 1987",PSG,Lionel Messi,7,7,3,3.78,0.00,0.65,6.39,-,-,Adidas
 Argentina,2,Adidas,FW,22.0,"Aug 22, 1997",Inter,Lautaro Martinez,6,0,0,1.89,0.38,0.00,6.81,-,-,Nike
 Argentina,2,Adidas,FW,21.0,"Nov 15, 1993",Roma,Paulo Dybala,2,0,0,5.62,0.00,N.A,N.A,-,-,Adidas
 Argentina,2,Adidas,FW,16.0,"April 26, 2001",Inter,Thiago Almada,1,0,0,0.00,0.00,0.00,0.00,-,-,Adidas
@@ -200,7 +200,7 @@ Portugal,9,Nike,MF,25.0,"February 9, 1995",Porto,Otavio,3,0,0,N.A,N.A,N.A,N.A,-,
 Portugal,9,Nike,MF,14.0,"April 7, 1992",Real Betis,William Carvalho,4,0,0,0.00,0.00,2.51,6.69,-,-,Nike
 Portugal,9,Nike,MF,16.0,"February 13, 2000",PSG,Vitinha,3,0,0,1.51,0.00,2.27,5.29,-,-,Nike
 Portugal,9,Nike,FW,24.0,"November 6, 1995",RB Leipzig,Andre Silva,1,0,0,0.00,0.00,0.00,7.20,-,-,Nike
-Portugal,9,Nike,FW,7.0,"February 5, 1985",-,Cristiano Ronaldo 🐐,5,1,0,0.62,0.00,0.00,6.49,-,-,Nike
+Portugal,9,Nike,FW,7.0,"February 5, 1985",-,Cristiano Ronaldo,5,1,0,0.62,0.00,0.00,6.49,-,-,Nike
 Portugal,9,Nike,FW,26.0,"June 20, 2001",Benfica,Goncalo Ramos,4,3,1,1.18,0.00,0.59,7.11,-,-,Nike
 Portugal,9,Nike,FW,11.0,"November 10, 1999",Atletico Madrid,Joao Felix,4,1,2,2.16,1.08,0.54,5.13,-,-,Adidas
 Portugal,9,Nike,FW,15.0,"June 10, 1999",AC Milan,Rafael Leao,5,2,0,6.51,1.08,0.00,7.59,-,-,Adidas
